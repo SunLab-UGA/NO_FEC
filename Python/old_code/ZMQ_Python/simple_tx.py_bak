@@ -1,0 +1,45 @@
+# this script connects to a ZMQ server and sends a message and then quits (for now)
+
+import zmq
+import pmt
+import numpy as np
+import time
+from datetime import datetime
+import os
+
+zmq_ports = [50000] # list all the ports a connnection should be read
+zmq_names = ['SNR']
+zmq_rx_type = [np.float32] # list the data types for each port this is a message
+
+contexts = []
+sockets = []
+for p in zmq_ports:
+    contexts.append(zmq.Context())
+    sockets.append(contexts[-1].socket(zmq.PUSH))
+    rc = sockets[-1].bind(f"tcp://127.0.0.1:{p}") # connect, not bind, the PUB will bind, only 1 can bind
+    #sockets[-1].setsockopt(zmq.SUBSCRIBE, b'') # subscribe to topic of all (needed or else it won't work)
+    print(f"connection status: {rc}")
+    last_endpoint = sockets[-1].getsockopt(zmq.LAST_ENDPOINT)
+    print(f"last endpoint: {last_endpoint}")
+
+print("Welcome!")
+
+# wait for the server to start
+
+# wait for client to connect
+# zmq.socket.Socket.getsockopt(zmq.EVENT_CONNECTED)
+# send a message to the server to change the snr to 10
+# this is a message
+sent = 0
+while (True):
+    sent += 1
+    # create pmt message
+    key = pmt.to_pmt('snr')
+    value = pmt.to_pmt(10)
+    # msg = pmt.make_dict()
+    msg = pmt.cons(key, value)
+    # msg = pmt.dict_add(msg, key, value)
+    msg = pmt.serialize_str(msg)
+    print(f"sending command {sent}")
+    sockets[0].send(msg)
+    time.sleep(1)

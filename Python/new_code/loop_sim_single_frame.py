@@ -76,6 +76,13 @@ print()
 print(f"RX symbols: {rx_data.symbols}")
 print(f"RX data: {rx_data.data}")
 print(f"RX time: {rx_data.time}")
+print()
+
+#print the length of the symbols and data (convert to bits from bytes)
+print(f"TX symbols length: {len(tx_data.symbols)}")
+print(f"TX data length: {len(tx_data.data)*8} bits")
+print(f"RX symbols length: {len(rx_data.symbols)}")
+print(f"RX data length: {len(rx_data.data)*8} bits")
 
 # find the time difference between the two
 time_diff = tx_data - rx_data # 

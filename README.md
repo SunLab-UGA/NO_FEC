@@ -1,6 +1,8 @@
-# NO_FEC
+# NO_FEC (The code will follow shortly)
 This is an exploration of a GNU_Radio 802.11 without Forward Error Correction
 The radioconda env is to keep keep the ieee802_11 packages seperated
+
+<img src="INFOCOM-2024-poster_w_background.png" width="800">
 
 ## install instructions
 * install radioconda and mamba
